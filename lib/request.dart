@@ -23,6 +23,9 @@ class _RequestState extends State<Request> {
     LatLng _center = new LatLng(13.057996, 109.319491);
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
         elevation: 0.0,
         centerTitle: true,
         title: Text(
@@ -100,7 +103,7 @@ class _RequestState extends State<Request> {
               Container(
                 height: 250,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 18),
                   child: GoogleMap(
                     onMapCreated: _onMapCreated,
                     initialCameraPosition: CameraPosition(
@@ -111,7 +114,7 @@ class _RequestState extends State<Request> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                 child: TextButton.icon(
                   onPressed: () {},
                   icon: Icon(Icons.add),
@@ -154,37 +157,96 @@ class _RequestState extends State<Request> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            IconButton(
-              iconSize: 35.0,
-              padding: EdgeInsets.only(left: 28.0),
-              icon: Icon(Icons.notifications_active_sharp),
-              color: Colors.lightBlue,
-              onPressed: () {},
+            Container(
+              height: 70.0,
+              child: Column(children: [
+                Padding(
+                  padding: EdgeInsets.all(0.0),
+                  child: IconButton(
+                    iconSize: 35.0,
+                    padding: EdgeInsets.only(left: 5.0),
+                    icon: Icon(Icons.notifications_active_sharp),
+                    color: Colors.lightBlue,
+                    onPressed: () {},
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5.0),
+                  child: Text(
+                    'Request',
+                    style: TextStyle(),
+                  ),
+                ),
+              ]),
             ),
-            IconButton(
-              iconSize: 35.0,
-              padding: EdgeInsets.only(right: 28.0),
-              icon: Icon(Icons.receipt_long_outlined),
-              color: Colors.lightBlue,
-              onPressed: () {},
+            Container(
+              height: 70.0,
+              child: Column(children: [
+                Padding(
+                  padding: EdgeInsets.all(0.0),
+                  child: IconButton(
+                    iconSize: 35.0,
+                    padding: EdgeInsets.only(right: 28.0),
+                    icon: Icon(Icons.receipt_long_outlined),
+                    color: Colors.lightBlue,
+                    onPressed: () {},
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 28.0),
+                  child: Text(
+                    'Activity',
+                    style: TextStyle(),
+                  ),
+                ),
+              ]),
             ),
             SizedBox(
-              width: 20,
+              width: 5.0,
             ),
-            IconButton(
-              iconSize: 35.0,
-              padding: EdgeInsets.only(left: 28.0),
-              icon: Icon(Icons.chat_outlined),
-              color: Colors.lightBlue,
-              onPressed: () {},
+            Container(
+              height: 70.0,
+              child: Column(children: [
+                Padding(
+                  padding: EdgeInsets.all(0.0),
+                  child: IconButton(
+                    iconSize: 35.0,
+                    padding: EdgeInsets.only(left: 28.0),
+                    icon: Icon(Icons.chat_outlined),
+                    color: Colors.lightBlue,
+                    onPressed: () {},
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 28.0),
+                  child: Text(
+                    'Inbox',
+                    style: TextStyle(),
+                  ),
+                ),
+              ]),
             ),
-            IconButton(
-              iconSize: 35.0,
-              padding: EdgeInsets.only(right: 28.0),
-              icon: Icon(Icons.account_circle),
-              color: Colors.lightBlue,
-              onPressed: () {},
-            )
+            Container(
+              height: 70.0,
+              child: Column(children: [
+                Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: IconButton(
+                      iconSize: 35.0,
+                      padding: EdgeInsets.only(right: 5.0),
+                      icon: Icon(Icons.account_circle),
+                      color: Colors.lightBlue,
+                      onPressed: () {},
+                    )),
+                Padding(
+                  padding: const EdgeInsets.only(right: 5.0),
+                  child: Text(
+                    'Account',
+                    style: TextStyle(),
+                  ),
+                ),
+              ]),
+            ),
           ],
         ),
       ),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import './request.dart';
+import './activity.dart';
+import './inbox.dart';
+import './account.dart';
 
 void main() => runApp(const MyApp());
 
@@ -71,12 +74,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         ),
         actions: <Widget>[
           Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[],
-            ),
-          ),
-          Container(
             padding: EdgeInsets.only(right: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -108,7 +105,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         onMapCreated: _onMapCreated,
         initialCameraPosition: CameraPosition(
           target: _center,
-          zoom: 30.0,
+          zoom: 15.0,
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -127,37 +124,113 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            IconButton(
-              iconSize: 35.0,
-              padding: EdgeInsets.only(left: 28.0),
-              icon: Icon(Icons.notifications_active_sharp),
-              color: Colors.lightBlue,
-              onPressed: () {},
+            Container(
+              height: 70.0,
+              child: Column(children: [
+                Padding(
+                  padding: EdgeInsets.all(0.0),
+                  child: IconButton(
+                    iconSize: 35.0,
+                    padding: EdgeInsets.only(left: 5.0),
+                    icon: Icon(Icons.notifications_active_sharp),
+                    color: Colors.lightBlue,
+                    onPressed: () {},
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5.0),
+                  child: Text(
+                    'Request',
+                    style: TextStyle(),
+                  ),
+                ),
+              ]),
             ),
-            IconButton(
-              iconSize: 35.0,
-              padding: EdgeInsets.only(right: 28.0),
-              icon: Icon(Icons.receipt_long_outlined),
-              color: Colors.lightBlue,
-              onPressed: () {},
+            Container(
+              height: 70.0,
+              child: Column(children: [
+                Padding(
+                  padding: EdgeInsets.all(0.0),
+                  child: IconButton(
+                    iconSize: 35.0,
+                    padding: EdgeInsets.only(right: 28.0),
+                    icon: Icon(Icons.receipt_long_outlined),
+                    color: Colors.lightBlue,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Activity()),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 28.0),
+                  child: Text(
+                    'Activity',
+                    style: TextStyle(),
+                  ),
+                ),
+              ]),
             ),
             SizedBox(
-              width: 20,
+              width: 5.0,
             ),
-            IconButton(
-              iconSize: 35.0,
-              padding: EdgeInsets.only(left: 28.0),
-              icon: Icon(Icons.chat_outlined),
-              color: Colors.lightBlue,
-              onPressed: () {},
+            Container(
+              height: 70.0,
+              child: Column(children: [
+                Padding(
+                  padding: EdgeInsets.all(0.0),
+                  child: IconButton(
+                    iconSize: 35.0,
+                    padding: EdgeInsets.only(left: 28.0),
+                    icon: Icon(Icons.chat_outlined),
+                    color: Colors.lightBlue,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Inbox()),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 28.0),
+                  child: Text(
+                    'Inbox',
+                    style: TextStyle(),
+                  ),
+                ),
+              ]),
             ),
-            IconButton(
-              iconSize: 35.0,
-              padding: EdgeInsets.only(right: 28.0),
-              icon: Icon(Icons.account_circle),
-              color: Colors.lightBlue,
-              onPressed: () {},
-            )
+            Container(
+              height: 70.0,
+              child: Column(children: [
+                Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: IconButton(
+                      iconSize: 35.0,
+                      padding: EdgeInsets.only(right: 5.0),
+                      icon: Icon(Icons.account_circle),
+                      color: Colors.lightBlue,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Account()),
+                        );
+                      },
+                    )),
+                Padding(
+                  padding: const EdgeInsets.only(right: 5.0),
+                  child: Text(
+                    'Account',
+                    style: TextStyle(),
+                  ),
+                ),
+              ]),
+            ),
           ],
         ),
       ),
