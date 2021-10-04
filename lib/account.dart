@@ -5,6 +5,7 @@ import './navigator.dart';
 import './request.dart';
 import './activity.dart';
 import './inbox.dart';
+import 'GoogleSignInProvider.dart';
 import 'main.dart';
 
 class Account extends StatelessWidget {
@@ -170,7 +171,11 @@ class Account extends StatelessWidget {
                       color: Colors.redAccent[200],
                       borderRadius: BorderRadius.circular(8)),
                   child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        final provider = GoogleSignInProvider();
+                        provider.logout();
+                        Navigator.pop(context);
+                      },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [

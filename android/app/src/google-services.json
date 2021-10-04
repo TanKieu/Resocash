@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "630088076685",
+    "project_id": "resocash-c9fb3",
+    "storage_bucket": "resocash-c9fb3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630088076685:android:7b247ac23148c709e6c1c4",
+        "android_client_info": {
+          "package_name": "com.example.resocash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "630088076685-ttbtcka690ubr6f17d2s4vi3jbf45p2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAHESkWUKcKRhrvS1nFpeD-Ik_wUDTI30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "630088076685-ttbtcka690ubr6f17d2s4vi3jbf45p2t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
