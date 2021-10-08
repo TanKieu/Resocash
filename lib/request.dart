@@ -2,17 +2,25 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 late GoogleMapController mapController;
 
 class Request extends StatefulWidget {
-  const Request({Key? key}) : super(key: key);
+  Request({Key? key}) : super(key: key);
 
   @override
   State<Request> createState() => _RequestState();
 }
 
 class _RequestState extends State<Request> {
+  late String storeAddress = "";
+
+  void _getAddress() async {
+    final prefs = await SharedPreferences.getInstance();
+    storeAddress = prefs.getString('storeAddress')!;
+  }
+
   bool _visible = true;
   @override
   Widget build(BuildContext context) {
@@ -21,6 +29,7 @@ class _RequestState extends State<Request> {
     }
 
     LatLng _center = new LatLng(13.057996, 109.319491);
+    _getAddress();
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -80,23 +89,32 @@ class _RequestState extends State<Request> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 16),
-                child: TextField(
-                  onTap: () {
-                    setState(() {
-                      _visible = false;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        width: 0,
+                child: Container(
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.location_on_outlined,
+                        color: Colors.redAccent,
                       ),
-                    ),
-                    hintText: 'Location',
-                    prefixIcon: Icon(Icons.location_on),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Flexible(
+                        child: Text(
+                          storeAddress,
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

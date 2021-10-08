@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resocash/activity.dart';
 import 'package:resocash/icons/doc_icon.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './navigator.dart';
 import './request.dart';
 import './activity.dart';
@@ -8,11 +9,25 @@ import './inbox.dart';
 import 'GoogleSignInProvider.dart';
 import 'main.dart';
 
-class Account extends StatelessWidget {
-  const Account({Key? key}) : super(key: key);
+class Account extends StatefulWidget {
+  Account({Key? key}) : super(key: key);
+
+  @override
+  _AccountState createState() => _AccountState();
+}
+
+class _AccountState extends State<Account> {
+  late String storeId = "";
+
+  void _getId() async {
+    final prefs = await SharedPreferences.getInstance();
+    storeId = prefs.getString('storeId')!;
+    print(storeId);
+  }
 
   @override
   Widget build(BuildContext context) {
+    _getId();
     return Scaffold(
         body: Material(
           child: Container(
@@ -38,7 +53,7 @@ class Account extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Store 11234',
+                        storeId,
                         style: TextStyle(
                             fontSize: 20.0,
                             color: Colors.white,
@@ -201,7 +216,7 @@ class Account extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Request()),
+              MaterialPageRoute(builder: (context) => Request()),
             );
           },
           tooltip: 'Create Request',
@@ -216,7 +231,7 @@ class Account extends StatelessWidget {
         }, () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const Activity()),
+            MaterialPageRoute(builder: (context) => Activity()),
           );
         }, () {
           Navigator.push(

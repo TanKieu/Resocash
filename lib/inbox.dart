@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resocash/account.dart';
 import 'package:resocash/activity.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './navigator.dart';
 import './request.dart';
 import 'main.dart';
@@ -69,7 +70,7 @@ class _InboxState extends State<Inbox> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Request()),
+                MaterialPageRoute(builder: (context) => Request()),
               );
             },
             tooltip: 'Create Request',
@@ -87,14 +88,14 @@ class _InboxState extends State<Inbox> {
               () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Activity()),
+                  MaterialPageRoute(builder: (context) => Activity()),
                 );
               },
               () {},
               () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Account()),
+                  MaterialPageRoute(builder: (context) => Account()),
                 );
               })),
     );

@@ -139,6 +139,9 @@ class _LoginState extends State<Login> {
               )),
           Row(
             children: [
+              SizedBox(
+                width: 100,
+              ),
               ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                       side: const BorderSide(width: 1.0, color: Colors.white),

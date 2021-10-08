@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './navigator.dart';
 import './request.dart';
 import 'main.dart';
@@ -7,7 +8,7 @@ import './account.dart';
 import './inbox.dart';
 
 class Activity extends StatefulWidget {
-  const Activity({Key? key}) : super(key: key);
+  Activity({Key? key}) : super(key: key);
 
   @override
   _ActivityState createState() => _ActivityState();
@@ -133,7 +134,7 @@ class _ActivityState extends State<Activity> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Request()),
+                MaterialPageRoute(builder: (context) => Request()),
               );
             },
             tooltip: 'Create Request',
@@ -158,7 +159,7 @@ class _ActivityState extends State<Activity> {
               () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Account()),
+                  MaterialPageRoute(builder: (context) => Account()),
                 );
               })),
     );
