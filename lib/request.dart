@@ -3,8 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 late GoogleMapController mapController;
+late String storeAddress;
 
 class Request extends StatefulWidget {
   Request({Key? key}) : super(key: key);
@@ -14,22 +16,29 @@ class Request extends StatefulWidget {
 }
 
 class _RequestState extends State<Request> {
-  late String storeAddress = "";
-
-  void _getAddress() async {
-    final prefs = await SharedPreferences.getInstance();
-    storeAddress = prefs.getString('storeAddress')!;
-  }
-
   bool _visible = true;
+  final _controller = TextEditingController();
+  static const _locale = 'en';
+  String _formatNumber(String s) =>
+      NumberFormat.decimalPattern(_locale).format(int.parse(s));
+  String get _currency =>
+      NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
   @override
   Widget build(BuildContext context) {
-    void _onMapCreated(GoogleMapController controller) {
-      mapController = controller;
+    void _getAddress() async {
+      final prefs = await SharedPreferences.getInstance();
+      storeAddress = prefs.getString('storeAddress')!;
     }
 
-    LatLng _center = new LatLng(13.057996, 109.319491);
-    _getAddress();
+    @override
+    void initState() {
+      super.initState();
+      _getAddress();
+    }
+
+    setState(() {
+      _getAddress();
+    });
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -59,89 +68,147 @@ class _RequestState extends State<Request> {
             _visible = true;
           });
         },
-        child: SingleChildScrollView(
+        child: Container(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
                 height: 10,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 16),
-                child: TextField(
-                  onTap: () {
-                    setState(() {
-                      _visible = false;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        width: 0,
-                      ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(
+                      10,
+                    )),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 15, bottom: 15, left: 15, right: 15),
+                  child: Text(
+                    'PassioFPT',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black45,
                     ),
-                    hintText: 'Cash',
-                    prefixIcon: Icon(Icons.attach_money),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                 child: Container(
-                  height: 60,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.white,
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.location_on_outlined,
-                        color: Colors.redAccent,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Flexible(
-                        child: Text(
-                          storeAddress,
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87,
-                          ),
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                        )
+                      ]),
+                  child: TextField(
+                    controller: _controller,
+                    onTap: () {
+                      setState(() {
+                        _visible = false;
+                      });
+                    },
+                    onChanged: (string) {
+                      string = '${_formatNumber(string.replaceAll(',', ''))}';
+                      _controller.value = TextEditingValue(
+                        text: string,
+                        selection:
+                            TextSelection.collapsed(offset: string.length),
+                      );
+                    },
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      fillColor: Colors.white,
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(
+                          width: 0,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                height: 250,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 18),
-                  child: GoogleMap(
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: _center,
-                      zoom: 10.0,
+                      hintText: 'Cash',
+                      prefixIcon: Icon(Icons.attach_money),
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+                  child: Container(
+                    height: 60,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                          )
+                        ]),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.location_on_outlined,
+                          color: Colors.redAccent,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Flexible(
+                          child: Text(
+                            'Đường D1 Khu Công Nghệ Cao, thành phố Thủ Đức',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                 child: TextButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.add),
-                  label: Text("Create Request"),
+                  onPressed: () {
+                    // Navigator.pop(context);
+                    // showModalBottomSheet(
+                    //     context: context,
+                    //     builder: (BuildContext) {
+                    //       return RequestProcess(
+                    //         cash: _controller.text,
+                    //       );
+                    //     });
+                  },
+                  icon: Icon(
+                    Icons.add,
+                    size: 36,
+                  ),
+                  label: Text(
+                    "Create Request",
+                    style: TextStyle(fontSize: 24),
+                  ),
                   style: TextButton.styleFrom(
-                      backgroundColor: Colors.teal,
+                      backgroundColor: Color(0xff5BBCE1),
                       primary: Colors.white,
+                      padding: EdgeInsets.all(15),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
+                        borderRadius: BorderRadius.circular(10.0),
                         side: BorderSide(color: Colors.grey),
                       )),
                 ),

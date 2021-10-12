@@ -153,7 +153,7 @@ class _LoginState extends State<Login> {
                     provider.googleLogin();
                   },
                   icon: const FaIcon(FontAwesomeIcons.google),
-                  label: const Text('Sign Up with Google'))
+                  label: const Text('Sign In with Google'))
             ],
           ),
         ],

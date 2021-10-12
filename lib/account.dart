@@ -9,6 +9,8 @@ import './inbox.dart';
 import 'GoogleSignInProvider.dart';
 import 'main.dart';
 
+late String storeId;
+
 class Account extends StatefulWidget {
   Account({Key? key}) : super(key: key);
 
@@ -17,17 +19,23 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
-  late String storeId = "";
-
-  void _getId() async {
-    final prefs = await SharedPreferences.getInstance();
-    storeId = prefs.getString('storeId')!;
-    print(storeId);
-  }
-
   @override
   Widget build(BuildContext context) {
-    _getId();
+    void _getId() async {
+      final prefs = await SharedPreferences.getInstance();
+      storeId = prefs.getString('storeId')!;
+    }
+
+    @override
+    void initState() {
+      super.initState();
+      _getId();
+    }
+
+    setState(() {
+      _getId();
+    });
+
     return Scaffold(
         body: Material(
           child: Container(
@@ -45,11 +53,11 @@ class _AccountState extends State<Account> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(
-                            top: 12.0, left: 12.0, bottom: 12.0, right: 3.0),
+                            top: 12.0, left: 12.0, bottom: 12.0, right: 6.0),
                         child: CircleAvatar(
                           radius: 40,
                           backgroundColor: Colors.amberAccent,
-                          child: Text('TK'),
+                          child: Text(storeId),
                         ),
                       ),
                       Text(

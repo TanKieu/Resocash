@@ -21,7 +21,6 @@ class GoogleSignInProvider extends ChangeNotifier {
     final googleUser = await googleSignIn.signIn();
     if (googleUser == null) return;
     _user = googleUser;
-
     final googleAuth = await googleUser.authentication;
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
@@ -32,6 +31,7 @@ class GoogleSignInProvider extends ChangeNotifier {
     final res = await http.get(Uri.parse(loginUrl), headers: {
       HttpHeaders.authorizationHeader: 'Bearer $token',
     });
+
     var body = jsonDecode(res.body);
     // var storage = FlutterSecureStorage();
     // storage.write(key: "jwtToken", value: res.body);
@@ -43,6 +43,7 @@ class GoogleSignInProvider extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('jwtToken', body['token']);
     }
+    return body['token'];
     notifyListeners();
   }
 

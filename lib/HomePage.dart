@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:resocash/GoogleSignInProvider.dart';
 import 'package:resocash/home.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -9,8 +10,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   late String token = "";
+  late Future googleProvider;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void _loadToken() async {
     final prefs = await SharedPreferences.getInstance();
@@ -33,13 +47,25 @@ class HomePage extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasData) {
-            _loadToken();
-            if (token.contains("Invalid")) {
-              _delToken();
-              return Login();
-            } else {
-              return Home();
-            }
+            googleProvider = GoogleSignInProvider().googleLogin();
+            return FutureBuilder(
+                future: googleProvider,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data.toString().contains("Invalid")) {
+                      _delToken();
+                      return Login();
+                    } else {
+                      return Home();
+                    }
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Some thing went wrong'),
+                    );
+                  } else {
+                    return Login();
+                  }
+                });
           } else if (snapshot.hasError) {
             return Center(
               child: Text('Some thing went wrong'),
