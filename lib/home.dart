@@ -21,8 +21,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late GoogleMapController mapController;
-
-  LatLng _center = new LatLng(13.057996, 109.319491);
+  List<Marker> allMarkers = [];
+  LatLng _center = new LatLng(10.841709445466075, 106.80923604799794);
   late Future<Store> store;
   late String storeAddress = "";
   late String storeId = "";
@@ -31,6 +31,11 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     store = StoreRequest.fetchStore();
+    _setStore();
+    allMarkers.add(Marker(
+        markerId: MarkerId('Passio FPT Ho Chi minh'),
+        draggable: false,
+        position: _center));
   }
 
   void _onMapCreated(GoogleMapController controller) {

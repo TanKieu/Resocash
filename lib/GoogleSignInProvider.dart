@@ -2,10 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class GoogleSignInProvider extends ChangeNotifier {
@@ -13,7 +11,7 @@ class GoogleSignInProvider extends ChangeNotifier {
   GoogleSignInAccount? _user;
 
   String loginUrl = 'http://20.188.105.155:5000/api/Login/googleAccount';
-  final storage = FlutterSecureStorage();
+
 
   GoogleSignInAccount get user => _user!;
 
@@ -33,9 +31,6 @@ class GoogleSignInProvider extends ChangeNotifier {
     });
 
     var body = jsonDecode(res.body);
-    // var storage = FlutterSecureStorage();
-    // storage.write(key: "jwtToken", value: res.body);
-    // print(await storage.read(key: "jwtToken"));
     if (body['token'].contains('Invalid')) {
       await googleSignIn.disconnect();
       FirebaseAuth.instance.signOut();

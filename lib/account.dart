@@ -9,8 +9,6 @@ import './inbox.dart';
 import 'GoogleSignInProvider.dart';
 import 'main.dart';
 
-late String storeId;
-
 class Account extends StatefulWidget {
   Account({Key? key}) : super(key: key);
 
@@ -19,13 +17,16 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
+  late String storeId = "";
+  void _getId() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      storeId = prefs.getString('storeId')!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    void _getId() async {
-      final prefs = await SharedPreferences.getInstance();
-      storeId = prefs.getString('storeId')!;
-    }
-
     @override
     void initState() {
       super.initState();

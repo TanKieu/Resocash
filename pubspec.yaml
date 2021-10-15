@@ -29,13 +29,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_core: "^1.3.0"
   firebase_auth: ^1.1.4
   google_sign_in: ^5.0.3
-
   font_awesome_flutter: ^9.0.0
-  firebase_messaging: ^10.0.0
-  flutter_secure_storage: ^3.3.1+1
   shared_preferences: ^2.0.8
+  firebase_database: "^7.1.2"
+  
 
   provider: ^5.0.0
   http: ^0.13.3
@@ -99,7 +99,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-fonts:
-    - family: flutter-icons-f8ca817f 
-      fonts:
-        - asset: assets/fonts/MyFlutterApp.ttf 

@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:resocash/models/Cashier.dart';
+import 'package:resocash/models/Request.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
-
-late GoogleMapController mapController;
-late String storeAddress;
+import 'firebase_db/request_dao.dart';
+import 'package:resocash/models/Request.dart';
 
 class Request extends StatefulWidget {
   Request({Key? key}) : super(key: key);
@@ -16,6 +16,9 @@ class Request extends StatefulWidget {
 }
 
 class _RequestState extends State<Request> {
+  late String storeId = "";
+  late String storeAddress = "";
+  final requestDao = RequestDao();
   bool _visible = true;
   final _controller = TextEditingController();
   static const _locale = 'en';
@@ -23,21 +26,33 @@ class _RequestState extends State<Request> {
       NumberFormat.decimalPattern(_locale).format(int.parse(s));
   String get _currency =>
       NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
+
+  void _sendRequest() {
+    final request = RequestService(storeId, storeAddress,
+        _controller.text.toString(), 'waiting', Cashier('', ''));
+    requestDao.createRequest(request);
+    setState(() {});
+  }
+
+  void _getStore() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      storeAddress = prefs.getString('storeAddress')!;
+      storeId = prefs.getString('storeId')!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    void _getAddress() async {
-      final prefs = await SharedPreferences.getInstance();
-      storeAddress = prefs.getString('storeAddress')!;
-    }
-
     @override
     void initState() {
       super.initState();
-      _getAddress();
+      _getStore();
     }
 
     setState(() {
-      _getAddress();
+      _getStore();
     });
     return Scaffold(
       appBar: AppBar(
@@ -93,7 +108,7 @@ class _RequestState extends State<Request> {
                   padding: const EdgeInsets.only(
                       top: 15, bottom: 15, left: 15, right: 15),
                   child: Text(
-                    'PassioFPT',
+                    storeId,
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -170,7 +185,7 @@ class _RequestState extends State<Request> {
                         ),
                         Flexible(
                           child: Text(
-                            'Đường D1 Khu Công Nghệ Cao, thành phố Thủ Đức',
+                            storeAddress,
                             style: TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.w400,
@@ -181,20 +196,19 @@ class _RequestState extends State<Request> {
                       ],
                     ),
                   )),
-
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                 child: TextButton.icon(
-                  onPressed: () {
-                    // Navigator.pop(context);
-                    // showModalBottomSheet(
-                    //     context: context,
-                    //     builder: (BuildContext) {
-                    //       return RequestProcess(
-                    //         cash: _controller.text,
-                    //       );
-                    //     });
-                  },
+                  onPressed: _sendRequest,
+                  //Navigator.pop(context);
+                  //  showModalBottomSheet(
+                  //      context: context,
+                  //      builder: (BuildContext) {
+                  //        return RequestProcess(
+                  //          cash: _controller.text,
+                  //        );
+                  //      });
+
                   icon: Icon(
                     Icons.add,
                     size: 36,
@@ -213,13 +227,6 @@ class _RequestState extends State<Request> {
                       )),
                 ),
               )
-              // GoogleMap(
-              //   onMapCreated: _onMapCreated,
-              //   initialCameraPosition: CameraPosition(
-              //     target: _center,
-              //     zoom: 30.0,
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -236,105 +243,105 @@ class _RequestState extends State<Request> {
           backgroundColor: Colors.redAccent,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-              height: 70.0,
-              child: Column(children: [
-                Padding(
-                  padding: EdgeInsets.all(0.0),
-                  child: IconButton(
-                    iconSize: 35.0,
-                    padding: EdgeInsets.only(left: 5.0),
-                    icon: Icon(Icons.notifications_active_sharp),
-                    color: Colors.lightBlue,
-                    onPressed: () {},
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 5.0),
-                  child: Text(
-                    'Request',
-                    style: TextStyle(),
-                  ),
-                ),
-              ]),
-            ),
-            Container(
-              height: 70.0,
-              child: Column(children: [
-                Padding(
-                  padding: EdgeInsets.all(0.0),
-                  child: IconButton(
-                    iconSize: 35.0,
-                    padding: EdgeInsets.only(right: 28.0),
-                    icon: Icon(Icons.receipt_long_outlined),
-                    color: Colors.lightBlue,
-                    onPressed: () {},
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 28.0),
-                  child: Text(
-                    'Activity',
-                    style: TextStyle(),
-                  ),
-                ),
-              ]),
-            ),
-            SizedBox(
-              width: 5.0,
-            ),
-            Container(
-              height: 70.0,
-              child: Column(children: [
-                Padding(
-                  padding: EdgeInsets.all(0.0),
-                  child: IconButton(
-                    iconSize: 35.0,
-                    padding: EdgeInsets.only(left: 28.0),
-                    icon: Icon(Icons.chat_outlined),
-                    color: Colors.lightBlue,
-                    onPressed: () {},
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 28.0),
-                  child: Text(
-                    'Inbox',
-                    style: TextStyle(),
-                  ),
-                ),
-              ]),
-            ),
-            Container(
-              height: 70.0,
-              child: Column(children: [
-                Padding(
-                    padding: EdgeInsets.all(0.0),
-                    child: IconButton(
-                      iconSize: 35.0,
-                      padding: EdgeInsets.only(right: 5.0),
-                      icon: Icon(Icons.account_circle),
-                      color: Colors.lightBlue,
-                      onPressed: () {},
-                    )),
-                Padding(
-                  padding: const EdgeInsets.only(right: 5.0),
-                  child: Text(
-                    'Account',
-                    style: TextStyle(),
-                  ),
-                ),
-              ]),
-            ),
-          ],
-        ),
-      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // bottomNavigationBar: BottomAppBar(
+      //   child: Row(
+      //     mainAxisSize: MainAxisSize.max,
+      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //     children: <Widget>[
+      //       Container(
+      //         height: 70.0,
+      //         child: Column(children: [
+      //           Padding(
+      //             padding: EdgeInsets.all(0.0),
+      //             child: IconButton(
+      //               iconSize: 35.0,
+      //               padding: EdgeInsets.only(left: 5.0),
+      //               icon: Icon(Icons.notifications_active_sharp),
+      //               color: Colors.lightBlue,
+      //               onPressed: () {},
+      //             ),
+      //           ),
+      //           Padding(
+      //             padding: const EdgeInsets.only(left: 5.0),
+      //             child: Text(
+      //               'Request',
+      //               style: TextStyle(),
+      //             ),
+      //           ),
+      //         ]),
+      //       ),
+      //       Container(
+      //         height: 70.0,
+      //         child: Column(children: [
+      //           Padding(
+      //             padding: EdgeInsets.all(0.0),
+      //             child: IconButton(
+      //               iconSize: 35.0,
+      //               padding: EdgeInsets.only(right: 28.0),
+      //               icon: Icon(Icons.receipt_long_outlined),
+      //               color: Colors.lightBlue,
+      //               onPressed: () {},
+      //             ),
+      //           ),
+      //           Padding(
+      //             padding: const EdgeInsets.only(right: 28.0),
+      //             child: Text(
+      //               'Activity',
+      //               style: TextStyle(),
+      //             ),
+      //           ),
+      //         ]),
+      //       ),
+      //       SizedBox(
+      //         width: 5.0,
+      //       ),
+      //       Container(
+      //         height: 70.0,
+      //         child: Column(children: [
+      //           Padding(
+      //             padding: EdgeInsets.all(0.0),
+      //             child: IconButton(
+      //               iconSize: 35.0,
+      //               padding: EdgeInsets.only(left: 28.0),
+      //               icon: Icon(Icons.chat_outlined),
+      //               color: Colors.lightBlue,
+      //               onPressed: () {},
+      //             ),
+      //           ),
+      //           Padding(
+      //             padding: const EdgeInsets.only(left: 28.0),
+      //             child: Text(
+      //               'Inbox',
+      //               style: TextStyle(),
+      //             ),
+      //           ),
+      //         ]),
+      //       ),
+      //       Container(
+      //         height: 70.0,
+      //         child: Column(children: [
+      //           Padding(
+      //               padding: EdgeInsets.all(0.0),
+      //               child: IconButton(
+      //                 iconSize: 35.0,
+      //                 padding: EdgeInsets.only(right: 5.0),
+      //                 icon: Icon(Icons.account_circle),
+      //                 color: Colors.lightBlue,
+      //                 onPressed: () {},
+      //               )),
+      //           Padding(
+      //             padding: const EdgeInsets.only(right: 5.0),
+      //             child: Text(
+      //               'Account',
+      //               style: TextStyle(),
+      //             ),
+      //           ),
+      //         ]),
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }
