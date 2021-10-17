@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:resocash/models/Cashier.dart';
 import 'package:resocash/models/Request.dart';
@@ -7,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'firebase_db/request_dao.dart';
 import 'package:resocash/models/Request.dart';
+
+import 'modabottom.dart';
 
 class Request extends StatefulWidget {
   Request({Key? key}) : super(key: key);
@@ -22,15 +25,34 @@ class _RequestState extends State<Request> {
   bool _visible = true;
   final _controller = TextEditingController();
   static const _locale = 'en';
+  late String dbKey = "";
   String _formatNumber(String s) =>
       NumberFormat.decimalPattern(_locale).format(int.parse(s));
   String get _currency =>
       NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
 
+  void _setDBkey() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setString('dbkey', dbKey);
+    });
+  }
+
   void _sendRequest() {
     final request = RequestService(storeId, storeAddress,
         _controller.text.toString(), 'waiting', Cashier('', ''));
-    requestDao.createRequest(request);
+    String dbkey = requestDao.createRequest(request);
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => Center(
+                child: RequestProcess(
+                  cash: request.cash,
+                  dbtoken: dbkey,
+                ),
+              )),
+    );
     setState(() {});
   }
 
@@ -200,6 +222,7 @@ class _RequestState extends State<Request> {
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                 child: TextButton.icon(
                   onPressed: _sendRequest,
+
                   //Navigator.pop(context);
                   //  showModalBottomSheet(
                   //      context: context,
@@ -226,7 +249,7 @@ class _RequestState extends State<Request> {
                         side: BorderSide(color: Colors.grey),
                       )),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -244,6 +267,7 @@ class _RequestState extends State<Request> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
       // bottomNavigationBar: BottomAppBar(
       //   child: Row(
       //     mainAxisSize: MainAxisSize.max,
