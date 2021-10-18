@@ -14,6 +14,10 @@ class RequestDao {
     return key;
   }
 
+  void updateRequest(RequestService request, String key) {
+    _requestRef.child(key).set(request.toJson());
+  }
+
   Query getRequestQuery(String key) {
     return _requestRef.orderByKey().equalTo(key);
   }

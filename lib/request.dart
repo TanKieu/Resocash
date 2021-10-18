@@ -21,6 +21,7 @@ class Request extends StatefulWidget {
 class _RequestState extends State<Request> {
   late String storeId = "";
   late String storeAddress = "";
+  late String areaId = "";
   final requestDao = RequestDao();
   bool _visible = true;
   final _controller = TextEditingController();
@@ -39,20 +40,33 @@ class _RequestState extends State<Request> {
   }
 
   void _sendRequest() {
-    final request = RequestService(storeId, storeAddress,
-        _controller.text.toString(), 'waiting', Cashier('', ''));
+    final request = RequestService(
+      storeId,
+      storeAddress,
+      _controller.text.toString(),
+      'waiting',
+      Cashier('', ''),
+      areaId,
+    );
     String dbkey = requestDao.createRequest(request);
     Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => Center(
-                child: RequestProcess(
-                  cash: request.cash,
-                  dbtoken: dbkey,
-                ),
-              )),
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => RequestProcess(
+        cash: request.cash,
+        dbtoken: dbkey,
+      ),
     );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //       builder: (context) => Center(
+    //             child: RequestProcess(
+    //               cash: request.cash,
+    //               dbtoken: dbkey,
+    //             ),
+    //           )),
+    // );
     setState(() {});
   }
 
@@ -62,6 +76,7 @@ class _RequestState extends State<Request> {
     setState(() {
       storeAddress = prefs.getString('storeAddress')!;
       storeId = prefs.getString('storeId')!;
+      areaId = prefs.getString('areaId')!;
     });
   }
 

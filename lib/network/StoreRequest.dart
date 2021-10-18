@@ -20,6 +20,7 @@ class StoreRequest {
   static Future<Store> fetchStore() async {
     final prefs = await SharedPreferences.getInstance();
     String token = await prefs.getString('jwtToken')!;
+    print(token);
     final response = await http.get(Uri.parse(storeURL), headers: {
       HttpHeaders.authorizationHeader: 'Bearer $token',
     });

@@ -30,6 +30,7 @@ class _HomeState extends State<Home> {
   late Future<Store> store;
   late String storeAddress = "";
   late String storeId = "";
+  late String areaId = "";
   String dbkey = "";
 
   @override
@@ -51,6 +52,7 @@ class _HomeState extends State<Home> {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('storeAddress', storeAddress);
     prefs.setString('storeId', storeId);
+    prefs.setString('areaId', areaId);
   }
 
   @override
@@ -62,6 +64,8 @@ class _HomeState extends State<Home> {
           return Builder(builder: (context) {
             storeAddress = snapshot.data!.storeAddress;
             storeId = snapshot.data!.id;
+            areaId = snapshot.data!.areaId;
+
             _setStore();
             return Scaffold(
               appBar: AppBar(
