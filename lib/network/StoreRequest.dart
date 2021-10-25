@@ -12,7 +12,7 @@ class StoreRequest {
 
   static Store parseStore(String responseBody) {
     var jsonData = jsonDecode(responseBody);
-    Store store = Store(jsonData['id'], jsonData['brandId'],
+    Store store = Store(jsonData['storeId'], jsonData['brandId'],
         jsonData['storeAddress'], jsonData['storeStatus'], jsonData['areaId']);
     return store;
   }
@@ -26,7 +26,7 @@ class StoreRequest {
     });
     print(response.body.toString());
     var jsonData = jsonDecode(response.body);
-    Store store = new Store(jsonData['id'], jsonData['brandId'],
+    Store store = new Store(jsonData['storeId'], jsonData['brandId'],
         jsonData['storeAddress'], jsonData['storeStatus'], jsonData['areaId']);
     return store;
   }

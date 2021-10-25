@@ -12,7 +12,6 @@ class GoogleSignInProvider extends ChangeNotifier {
 
   String loginUrl = 'http://20.188.105.155:5000/api/Login/googleAccount';
 
-
   GoogleSignInAccount get user => _user!;
 
   Future googleLogin() async {
@@ -43,8 +42,10 @@ class GoogleSignInProvider extends ChangeNotifier {
   }
 
   Future logout() async {
-    await googleSignIn.disconnect();
-    FirebaseAuth.instance.signOut();
+    if (FirebaseAuth.instance.currentUser != null) {
+      await googleSignIn.disconnect();
+      FirebaseAuth.instance.signOut();
+    }
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('jwtToken');
     notifyListeners();

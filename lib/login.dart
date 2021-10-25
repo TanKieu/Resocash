@@ -6,6 +6,11 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:resocash/GoogleSignInProvider.dart';
+import 'package:resocash/account.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'home.dart';
+import 'network/AccoutLogin.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -15,6 +20,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +48,7 @@ class _LoginState extends State<Login> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 16),
             child: TextField(
+              controller: _usernameController,
               decoration: InputDecoration(
                 fillColor: Colors.blueGrey[600],
                 filled: true,
@@ -50,11 +58,11 @@ class _LoginState extends State<Login> {
                     color: Colors.white,
                   ),
                 ),
-                hintText: 'Phone Number',
+                hintText: 'Email',
                 hintStyle: const TextStyle(
                     color: Colors.white, fontWeight: FontWeight.bold),
                 prefixIcon: const Icon(
-                  Icons.phone,
+                  Icons.mail,
                   color: Colors.white,
                 ),
               ),
@@ -63,6 +71,8 @@ class _LoginState extends State<Login> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
             child: TextField(
+              controller: _passwordController,
+              obscureText: true,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 fillColor: Colors.blueGrey[600],
@@ -101,7 +111,57 @@ class _LoginState extends State<Login> {
               height: 70,
               width: 500,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () async {
+                  final login = new AccountLogin();
+                  // return FutureBuilder(
+                  //   future: login.accountLogin(
+                  //       _usernameController.text, _passwordController.text),
+                  //   builder: (context, snapshot) {
+                  //     if (snapshot.hasData) {
+                  //       if (snapshot.data.toString().contains("Invalid")) {
+                  //         return Login();
+                  //       } else {
+                  //         return Home();
+                  //       }
+                  //     }
+                  //     return Login();
+                  //   },
+                  // );
+                  Future<String> loginAccount = login.accountLogin(
+                      _usernameController.text, _passwordController.text);
+                  // await FutureBuilder(
+                  //   future: token,
+                  //   builder: (context, snapshot) {
+                  //     if (snapshot.hasData) {
+                  //       if (snapshot.data == 'success') {
+                  //         Navigator.of(context).push(MaterialPageRoute(
+                  //             builder: (context) => Account()));
+                  //       }
+                  //     } else if (snapshot.hasError) {
+                  //       return Center(
+                  //         child: Text('Some thing went wrong'),
+                  //       );
+                  //     } else {
+                  //       return Account();
+                  //     }
+                  //     return Account();
+                  //   },
+                  // );
+                  loginAccount.whenComplete(() async {
+                    final prefs = await SharedPreferences.getInstance();
+                    String? token = prefs.getString('jwtToken');
+                    if (token != null) {
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => Home()));
+                    } else {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) => Container(
+                                child: Text('Invalid user'),
+                              ));
+                    }
+                  });
+                },
                 child: const Text(
                   "Sign In",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
@@ -116,18 +176,18 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-            child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Don't have an account? Sign Up",
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                )),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+          //   child: TextButton(
+          //       onPressed: () {},
+          //       child: Text(
+          //         "Don't have an account? Sign Up",
+          //         style: TextStyle(
+          //             fontSize: 15,
+          //             fontWeight: FontWeight.bold,
+          //             color: Colors.white),
+          //       )),
+          // ),
           const Padding(
               padding: EdgeInsets.symmetric(horizontal: 150, vertical: 20),
               child: Text(
