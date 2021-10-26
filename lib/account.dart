@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resocash/HomePage.dart';
 import 'package:resocash/activity.dart';
 import 'package:resocash/icons/doc_icon.dart';
 import 'package:resocash/login.dart';
@@ -200,8 +201,8 @@ class _AccountState extends State<Account> {
                         final provider = GoogleSignInProvider();
                         provider.logout();
                         Navigator.pop(context);
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => Login()));
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => HomePage()));
                       },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
