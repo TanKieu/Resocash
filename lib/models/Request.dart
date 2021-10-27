@@ -16,7 +16,7 @@ class RequestService {
         storeAddress = json['storeAddress'],
         cash = json['cash'],
         status = json['status'],
-        cashier = Cashier.fromJson(json['cashier']),
+        cashier = Cashier(json['cashierID'], json['cashierName']),
         areaId = json['areaId'];
 
   Map<dynamic, dynamic> toJson() => <dynamic, dynamic>{

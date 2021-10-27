@@ -4,10 +4,10 @@ class Cashier {
 
   Cashier(this.id, this.name);
   Cashier.fromJson(Map<dynamic, dynamic> json)
-      : id = json['id'],
-        name = json['name'];
+      : id = json['cashierID'],
+        name = json['cashierName'];
   Map<dynamic, dynamic> toJson() => <dynamic, dynamic>{
-        'id': id,
-        'name': name,
+        'cashierID': id,
+        'cashierName': name,
       };
 }

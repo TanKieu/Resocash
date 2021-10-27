@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:resocash/models/Request.dart';
+import 'package:resocash/network/HistoryRequest.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './navigator.dart';
 import './request.dart';
@@ -15,6 +17,7 @@ class Activity extends StatefulWidget {
 }
 
 class _ActivityState extends State<Activity> {
+  HistoryRequest request = new HistoryRequest();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -78,56 +81,81 @@ class _ActivityState extends State<Activity> {
           body: TabBarView(
             children: [
               Icon(Icons.access_alarm),
-              ListView(children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Container(
-                    child: History("Nguyen Van A", '50.000.000'),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Container(
-                    child: History("Nguyen Van A", '50.000.000'),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Container(
-                    child: History("Nguyen Van A", '50.000.000'),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Container(
-                    child: History("Nguyen Van A", '50.000.000'),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Container(
-                    child: History("Nguyen Van A", '50.000.000'),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Container(
-                    child: History("Nguyen Van A", '50.000.000'),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Container(
-                    child: History("Nguyen Van A", '50.000.000'),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Container(
-                    child: History("Nguyen Van A", '50.000.000'),
-                  ),
-                ),
-              ]),
+              FutureBuilder<List<RequestService>>(
+                future: HistoryRequest.fetchHistory(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<RequestService>? data = snapshot.data;
+                    return ListView.builder(
+                        itemCount: data!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 10),
+                            child: Container(
+                                child: History(
+                              data[index].cashier.name.toString(),
+                              data[index].cash.toString(),
+                              data[index].status.toString(),
+                              '07 may',
+                            )),
+                          );
+                        });
+                  } else {
+                    return Text('No History');
+                  }
+                },
+              )
+              // ListView(children: [
+              //   Padding(
+              //     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              //     child: Container(
+              //       child: History("Nguyen Van A", '50.000.000'),
+              //     ),
+              //   ),
+              //   Padding(
+              //     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              //     child: Container(
+              //       child: History("Nguyen Van A", '50.000.000'),
+              //     ),
+              //   ),
+              //   Padding(
+              //     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              //     child: Container(
+              //       child: History("Nguyen Van A", '50.000.000'),
+              //     ),
+              //   ),
+              //   Padding(
+              //     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              //     child: Container(
+              //       child: History("Nguyen Van A", '50.000.000'),
+              //     ),
+              //   ),
+              //   Padding(
+              //     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              //     child: Container(
+              //       child: History("Nguyen Van A", '50.000.000'),
+              //     ),
+              //   ),
+              //   Padding(
+              //     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              //     child: Container(
+              //       child: History("Nguyen Van A", '50.000.000'),
+              //     ),
+              //   ),
+              //   Padding(
+              //     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              //     child: Container(
+              //       child: History("Nguyen Van A", '50.000.000'),
+              //     ),
+              //   ),
+              //   Padding(
+              //     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              //     child: Container(
+              //       child: History("Nguyen Van A", '50.000.000'),
+              //     ),
+              //   ),
+              // ]),
             ],
           ),
           floatingActionButton: FloatingActionButton(

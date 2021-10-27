@@ -8,7 +8,8 @@ class History extends StatelessWidget {
   late String _status;
   late String _date;
 
-  History(@required this._name, @required this._money);
+  History(@required this._name, @required this._money, @required this._status,
+      @required this._date);
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +39,12 @@ class History extends StatelessWidget {
                 SizedBox(
                   height: 10.0,
                 ),
-                Text(
-                  _name,
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w800),
+                Center(
+                  child: Text(
+                    _name,
+                    style:
+                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.w800),
+                  ),
                 ),
                 SizedBox(
                   height: 7,
@@ -53,7 +57,7 @@ class History extends StatelessWidget {
                   height: 7,
                 ),
                 Text(
-                  'Success',
+                  _status,
                   style: TextStyle(
                       fontSize: 14.0,
                       color: Colors.blue,
@@ -71,7 +75,7 @@ class History extends StatelessWidget {
                 height: 10.0,
               ),
               Text(
-                '07 May',
+                _date,
                 style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400),
               )
             ],
