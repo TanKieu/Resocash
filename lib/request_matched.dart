@@ -24,7 +24,6 @@ class _RequestMatchedState extends State<RequestMatched> {
 
   void _updateStatus() {
     widget.request.status = 'arrived';
-    print('sjdfbjdfnasdf   ' + widget.dbKey);
     requestDao.updateRequest(widget.request, widget.dbKey);
   }
 
@@ -127,7 +126,7 @@ class _RequestMatchedState extends State<RequestMatched> {
                   Padding(
                     padding: EdgeInsets.only(left: 28, bottom: 10),
                     child: Text(
-                      widget.request.cashier.name,
+                      widget.request.cashierName,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.blueAccent,

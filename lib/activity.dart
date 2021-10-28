@@ -4,6 +4,7 @@ import 'package:resocash/network/HistoryRequest.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './navigator.dart';
 import './request.dart';
+import 'home.dart';
 import 'main.dart';
 import './history.dart';
 import './account.dart';
@@ -94,7 +95,7 @@ class _ActivityState extends State<Activity> {
                                 horizontal: 15, vertical: 10),
                             child: Container(
                                 child: History(
-                              data[index].cashier.name.toString(),
+                              data[index].cashierName.toString(),
                               data[index].cash.toString(),
                               data[index].status.toString(),
                               '07 may',
@@ -174,7 +175,7 @@ class _ActivityState extends State<Activity> {
               () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MyApp()),
+                  MaterialPageRoute(builder: (context) => const Home()),
                 );
               },
               () {},

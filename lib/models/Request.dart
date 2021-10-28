@@ -6,17 +6,20 @@ class RequestService {
   final String areaId;
   final String cash;
   String status;
-  final Cashier cashier;
+  final String cashierID;
+  final String cashierName;
 
   RequestService(this.storeId, this.storeAddress, this.cash, this.status,
-      this.cashier, this.areaId);
+      this.cashierID, this.cashierName, this.areaId);
 
   RequestService.fromJson(Map<dynamic, dynamic> json)
       : storeId = json['storeId' as String],
         storeAddress = json['storeAddress'],
         cash = json['cash'],
         status = json['status'],
-        cashier = Cashier(json['cashierID'], json['cashierName']),
+        //cashier = Cashier.fromJson(json['cashier']),
+        cashierID = json['cashierID'],
+        cashierName = json['cashierName'],
         areaId = json['areaId'];
 
   Map<dynamic, dynamic> toJson() => <dynamic, dynamic>{
@@ -24,7 +27,8 @@ class RequestService {
         'storeAddress': storeAddress,
         'cash': cash,
         'status': status,
-        'cashier': cashier.toJson(),
+        'cashierID': cashierID,
+        'cashierName': cashierName,
         'areaId': areaId,
       };
 }

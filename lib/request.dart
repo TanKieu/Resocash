@@ -45,7 +45,8 @@ class _RequestState extends State<Request> {
       storeAddress,
       _controller.text.toString(),
       'waiting',
-      Cashier('', ''),
+      '',
+      '',
       areaId,
     );
     String dbkey = requestDao.createRequest(request);
