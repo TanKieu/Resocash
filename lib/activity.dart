@@ -94,7 +94,7 @@ class _ActivityState extends State<Activity> {
                                 horizontal: 15, vertical: 10),
                             child: Container(
                                 child: History(
-                              data[index].cashier.name.toString(),
+                              data[index].cashierName,
                               data[index].cash.toString(),
                               data[index].status.toString(),
                               '07 may',

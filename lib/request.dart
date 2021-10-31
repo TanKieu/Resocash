@@ -41,20 +41,22 @@ class _RequestState extends State<Request> {
 
   void _sendRequest() {
     final request = RequestService(
+      dbKey,
       storeId,
       storeAddress,
-      _controller.text.toString(),
+      _controller.text.toString().replaceAll(',', ''),
       'waiting',
-      Cashier('', ''),
+      '',
+      '',
       areaId,
     );
-    String dbkey = requestDao.createRequest(request);
+    requestDao.createRequest(request);
     Navigator.pop(context);
     showModalBottomSheet(
       context: context,
       builder: (context) => RequestProcess(
         cash: request.cash,
-        dbtoken: dbkey,
+        dbtoken: dbKey,
       ),
     );
     // Navigator.push(
@@ -77,6 +79,7 @@ class _RequestState extends State<Request> {
       storeAddress = prefs.getString('storeAddress')!;
       storeId = prefs.getString('storeId')!;
       areaId = prefs.getString('areaId')!;
+      dbKey = storeId + areaId + DateTime.now().toString();
     });
   }
 

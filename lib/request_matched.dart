@@ -127,7 +127,7 @@ class _RequestMatchedState extends State<RequestMatched> {
                   Padding(
                     padding: EdgeInsets.only(left: 28, bottom: 10),
                     child: Text(
-                      widget.request.cashier.name,
+                      widget.request.cashierName,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.blueAccent,
