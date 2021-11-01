@@ -48,7 +48,7 @@ class _TransferState extends State<Transfer> {
                     width: 10,
                   ),
                   Text(
-                    widget.request.cash + ' vnd',
+                    widget.request.cash.toString() + ' vnd',
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,

@@ -74,7 +74,7 @@ class _RequestMatchedState extends State<RequestMatched> {
                             width: 10,
                           ),
                           Text(
-                            widget.request.cash,
+                            widget.request.cash.toString(),
                             style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.w400,
@@ -127,7 +127,7 @@ class _RequestMatchedState extends State<RequestMatched> {
                   Padding(
                     padding: EdgeInsets.only(left: 28, bottom: 10),
                     child: Text(
-                      widget.request.cashierName,
+                      widget.request.cashierName.toString(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.blueAccent,

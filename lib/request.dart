@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_constructors
-
+import 'dart:math';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:resocash/models/Cashier.dart';
@@ -39,12 +39,18 @@ class _RequestState extends State<Request> {
     });
   }
 
+  static const _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random _rnd = Random();
+
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
   void _sendRequest() {
     final request = RequestService(
       dbKey,
       storeId,
       storeAddress,
-      _controller.text.toString().replaceAll(',', ''),
+      int.parse(_controller.text.toString().replaceAll(',', '')),
       'waiting',
       '',
       '',
@@ -55,7 +61,7 @@ class _RequestState extends State<Request> {
     showModalBottomSheet(
       context: context,
       builder: (context) => RequestProcess(
-        cash: request.cash,
+        cash: request.cash.toString(),
         dbtoken: dbKey,
       ),
     );
@@ -79,7 +85,7 @@ class _RequestState extends State<Request> {
       storeAddress = prefs.getString('storeAddress')!;
       storeId = prefs.getString('storeId')!;
       areaId = prefs.getString('areaId')!;
-      dbKey = storeId + areaId + DateTime.now().toString();
+      dbKey = storeId + areaId + getRandomString(10);
     });
   }
 

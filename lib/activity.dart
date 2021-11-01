@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resocash/models/History.dart';
 import 'package:resocash/models/Request.dart';
 import 'package:resocash/network/HistoryRequest.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -81,11 +82,11 @@ class _ActivityState extends State<Activity> {
           body: TabBarView(
             children: [
               Icon(Icons.access_alarm),
-              FutureBuilder<List<RequestService>>(
+              FutureBuilder<List<HistoryOBJ>>(
                 future: HistoryRequest.fetchHistory(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    List<RequestService>? data = snapshot.data;
+                    List<HistoryOBJ>? data = snapshot.data;
                     return ListView.builder(
                         itemCount: data!.length,
                         itemBuilder: (BuildContext context, int index) {
@@ -97,7 +98,7 @@ class _ActivityState extends State<Activity> {
                               data[index].cashierName,
                               data[index].cash.toString(),
                               data[index].status.toString(),
-                              '07 may',
+                              data[index].date.toString(),
                             )),
                           );
                         });

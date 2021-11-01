@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class History extends StatelessWidget {
   // const History({Key? key}) : super(key: key);
@@ -13,6 +14,8 @@ class History extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final String formatted = formatter.format(DateTime.parse(_date));
     return Container(
       height: 120.0,
       child: Row(
@@ -49,10 +52,7 @@ class History extends StatelessWidget {
                 SizedBox(
                   height: 7,
                 ),
-                Text(
-                  'Cash: ' + _money,
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
-                ),
+                Text(formatted.toString()),
                 SizedBox(
                   height: 7,
                 ),
@@ -62,28 +62,35 @@ class History extends StatelessWidget {
                       fontSize: 14.0,
                       color: Colors.blue,
                       fontWeight: FontWeight.bold),
-                )
+                ),
+                SizedBox(
+                  height: 7,
+                ),
+                Text(
+                  _money,
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
+                ),
               ],
             ),
           ),
           SizedBox(
             width: 35.0,
           ),
-          Column(
-            children: [
-              SizedBox(
-                height: 10.0,
-              ),
-              Text(
-                _date,
-                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400),
-              )
-            ],
-          )
+          // Column(
+          //   children: [
+          //     SizedBox(
+          //       height: 10.0,
+          //     ),
+          //     Text(
+          //       _date,
+          //       style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400),
+          //     )
+          //   ],
+          // )
         ],
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.grey,
         borderRadius: BorderRadius.circular(10),
 
         // boxShadow: [BoxShadow(color: Colors.green, spreadRadius: 3)]

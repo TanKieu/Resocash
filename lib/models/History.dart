@@ -1,8 +1,10 @@
 import 'dart:ffi';
 
+import 'package:resocash/history.dart';
+
 import 'Cashier.dart';
 
-class RequestService {
+class HistoryOBJ {
   String requestID;
   final String storeId;
   final String storeAddress;
@@ -12,11 +14,12 @@ class RequestService {
   //final Cashier cashier;
   final String cashierID;
   final String cashierName;
+  final String date;
 
-  RequestService(this.requestID, this.storeId, this.storeAddress, this.cash,
-      this.status, this.cashierID, this.cashierName, this.areaId);
+  HistoryOBJ(this.requestID, this.storeId, this.storeAddress, this.cash,
+      this.status, this.cashierID, this.cashierName, this.areaId, this.date);
 
-  RequestService.fromJson(Map<dynamic, dynamic> json)
+  HistoryOBJ.fromJson(Map<dynamic, dynamic> json)
       : requestID = json['cashingRequestID'],
         storeId = json['storeId' as String],
         storeAddress = json['storeAddress'],
@@ -24,16 +27,16 @@ class RequestService {
         status = json['status'],
         cashierID = json['cashierID'],
         cashierName = json['cashierName'],
-        areaId = json['areaId'];
+        areaId = json['areaId'],
+        date = json['localDateTime'];
 
   Map<dynamic, dynamic> toJson() => <dynamic, dynamic>{
         'cashingRequestID': requestID,
         'amount': cash,
-        'storeID': storeId,
-        'cashierId': cashierID,
+        'storeId': storeId,
+        'cashierID': cashierID,
         'cashierName': cashierName,
-        'areaID': areaId,
-        'status': status,
-        'storeAddress': storeAddress
+        'areaId': areaId,
+        'status': status
       };
 }
