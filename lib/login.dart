@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:resocash/GoogleSignInProvider.dart';
+import 'package:resocash/firebase_db/GoogleSignInProvider.dart';
 import 'package:resocash/account.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,6 +22,26 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  void _showDialogDeActivating(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Invalid username or password!!"),
+          content: new Text("Your account is not valid. Please try again!"),
+          actions: <Widget>[
+            new TextButton(
+              child: new Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,11 +174,12 @@ class _LoginState extends State<Login> {
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(builder: (context) => Home()));
                     } else {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) => Container(
-                                child: Text('Invalid user'),
-                              ));
+                      // showModalBottomSheet(
+                      //     context: context,
+                      //     builder: (context) => Container(
+                      //           child: Text('Invalid user'),
+                      //         ));
+                      _showDialogDeActivating(context);
                     }
                   });
                 },
