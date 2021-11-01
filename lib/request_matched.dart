@@ -24,7 +24,7 @@ class _RequestMatchedState extends State<RequestMatched> {
 
   void _updateStatus() {
     widget.request.status = 'arrived';
-    print('sjdfbjdfnasdf   ' + widget.dbKey);
+    print('request matched   ' + widget.dbKey);
     requestDao.updateRequest(widget.request, widget.dbKey);
   }
 

@@ -34,8 +34,10 @@ class RequestDao {
     // return requestID;
   }
 
-  void updateRequest(RequestService request, String key) {
-    _requestRef.child(key).set(request.toJson());
+  void updateRequest(RequestService request, String keydb) {
+    request.requestID = keydb;
+    print(keydb);
+    _requestRef.child(keydb).set(request.toJson());
   }
 
   Query getRequestQuery(String key) {

@@ -58,6 +58,7 @@ class _RequestState extends State<Request> {
     );
     requestDao.createRequest(request);
     Navigator.pop(context);
+    print('request' + request.requestID + "          " + dbKey);
     showModalBottomSheet(
       context: context,
       builder: (context) => RequestProcess(
@@ -85,7 +86,6 @@ class _RequestState extends State<Request> {
       storeAddress = prefs.getString('storeAddress')!;
       storeId = prefs.getString('storeId')!;
       areaId = prefs.getString('areaId')!;
-      dbKey = storeId + areaId + getRandomString(10);
     });
   }
 
@@ -97,6 +97,7 @@ class _RequestState extends State<Request> {
       _getStore();
     }
 
+    dbKey = storeId + areaId + getRandomString(10);
     setState(() {
       _getStore();
     });

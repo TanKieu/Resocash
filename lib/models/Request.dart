@@ -17,22 +17,22 @@ class RequestService {
       this.status, this.cashierID, this.cashierName, this.areaId);
 
   RequestService.fromJson(Map<dynamic, dynamic> json)
-      : requestID = json['cashingRequestID'],
+      : requestID = json['cashingRequestId'],
         storeId = json['storeId' as String],
         storeAddress = json['storeAddress'],
         cash = json['amount'],
         status = json['status'],
-        cashierID = json['cashierID'],
+        cashierID = json['cashierId'],
         cashierName = json['cashierName'],
         areaId = json['areaId'];
 
   Map<dynamic, dynamic> toJson() => <dynamic, dynamic>{
-        'cashingRequestID': requestID,
+        'cashingRequestId': requestID,
         'amount': cash,
-        'storeID': storeId,
+        'storeId': storeId,
         'cashierId': cashierID,
         'cashierName': cashierName,
-        'areaID': areaId,
+        'areaId': areaId,
         'status': status,
         'storeAddress': storeAddress
       };

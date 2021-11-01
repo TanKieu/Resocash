@@ -30,10 +30,12 @@ class _RequestProcessState extends State<RequestProcess> {
         itemBuilder: (context, snapshot, animation, index) {
           final json = snapshot.value as Map<dynamic, dynamic>;
           final request = RequestService.fromJson(json);
+          String db = request.requestID.toString();
           if (request.status == 'accepted') {
+            print('modabottom' + db);
             return RequestMatched(
               request: request,
-              dbKey: widget.dbtoken,
+              dbKey: db,
             );
           }
           if (request.status == 'transfered') {
