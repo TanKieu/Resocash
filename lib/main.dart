@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:resocash/GoogleSignInProvider.dart';
+import 'package:resocash/firebase_db/GoogleSignInProvider.dart';
 import 'package:resocash/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:resocash/HomePage.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,14 +19,14 @@ class MyApp extends StatelessWidget {
   static const String _title = 'Flutter Code Sample';
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(create: (context) => GoogleSignInProvider(),
-    child: MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: _title,
-      // home: MyStatefulWidget(),
-      home: HomePage(),
-    ));
-
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+      create: (context) => GoogleSignInProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: _title,
+        // home: MyStatefulWidget(),
+        home: HomePage(),
+      ));
 }
 
 /// This is the stateful widget that the main application instantiates.

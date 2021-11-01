@@ -1,7 +1,11 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:resocash/models/History.dart';
 import 'package:resocash/models/Request.dart';
 import 'package:resocash/network/HistoryRequest.dart';
+import 'package:resocash/requestprocess.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './navigator.dart';
 import './request.dart';
@@ -19,6 +23,13 @@ class Activity extends StatefulWidget {
 
 class _ActivityState extends State<Activity> {
   HistoryRequest request = new HistoryRequest();
+  Future<RequestService> _getOnProcessReq() async {
+    final prefs = await SharedPreferences.getInstance();
+    Map requestMap = jsonDecode(prefs.getString('requestMatched').toString());
+    RequestService request = RequestService.fromJson(requestMap);
+    return request;
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -81,29 +92,51 @@ class _ActivityState extends State<Activity> {
               )),
           body: TabBarView(
             children: [
-              Icon(Icons.access_alarm),
+              //Icon(Icons.access_alarm),
+              FutureBuilder<RequestService>(
+                future: _getOnProcessReq(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return OnProcess(request: snapshot.data!);
+                  }
+                  return Center(
+                      child: Text('There is no active yet',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )));
+                },
+              ),
               FutureBuilder<List<HistoryOBJ>>(
                 future: HistoryRequest.fetchHistory(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     List<HistoryOBJ>? data = snapshot.data;
-                    return ListView.builder(
-                        itemCount: data!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
-                            child: Container(
-                                child: History(
-                              data[index].cashierName,
-                              data[index].cash.toString(),
-                              data[index].status.toString(),
-                              data[index].date.toString(),
-                            )),
-                          );
-                        });
+                    return Container(
+                      color: Colors.black26,
+                      child: ListView.builder(
+                          itemCount: data!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              child: Container(
+                                  child: History(
+                                data[index].cashierName,
+                                data[index].cash.toString(),
+                                data[index].status.toString(),
+                                data[index].date.toString(),
+                              )),
+                            );
+                          }),
+                    );
                   } else {
-                    return Text('No History');
+                    return Center(
+                        child: Text(
+                      'No History',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ));
                   }
                 },
               )

@@ -28,7 +28,6 @@ class GoogleSignInProvider extends ChangeNotifier {
     final res = await http.get(Uri.parse(loginUrl), headers: {
       HttpHeaders.authorizationHeader: 'Bearer $token',
     });
-
     var body = jsonDecode(res.body);
     if (body['token'].contains('Invalid')) {
       await googleSignIn.disconnect();

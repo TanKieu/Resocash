@@ -22,9 +22,10 @@ class RequestMatched extends StatefulWidget {
 class _RequestMatchedState extends State<RequestMatched> {
   final requestDao = RequestDao();
 
-  void _updateStatus() {
+  void _updateStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('requestMatched');
     widget.request.status = 'arrived';
-    print('request matched   ' + widget.dbKey);
     requestDao.updateRequest(widget.request, widget.dbKey);
   }
 

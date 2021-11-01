@@ -20,7 +20,7 @@ class History extends StatelessWidget {
       height: 120.0,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
             width: 25.0,
@@ -42,12 +42,9 @@ class History extends StatelessWidget {
                 SizedBox(
                   height: 10.0,
                 ),
-                Center(
-                  child: Text(
-                    _name,
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.w800),
-                  ),
+                Text(
+                  _name,
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w800),
                 ),
                 SizedBox(
                   height: 7,
@@ -90,7 +87,7 @@ class History extends StatelessWidget {
         ],
       ),
       decoration: BoxDecoration(
-        color: Colors.grey,
+        color: Colors.white70,
         borderRadius: BorderRadius.circular(10),
 
         // boxShadow: [BoxShadow(color: Colors.green, spreadRadius: 3)]

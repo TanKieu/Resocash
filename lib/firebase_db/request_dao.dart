@@ -21,7 +21,6 @@ class RequestDao {
     // request.requestID = requestID;
     // final prefs = await SharedPreferences.getInstance();
     // prefs.setString('key', requestID);
-    print(request.toJson());
     final res = await http.post(
       Uri.parse(requestURL),
       headers: {
@@ -29,14 +28,12 @@ class RequestDao {
       },
       body: jsonEncode(request.toJson()),
     );
-    print(res.body);
-    print(res.statusCode);
+
     // return requestID;
   }
 
   void updateRequest(RequestService request, String keydb) {
     request.requestID = keydb;
-    print(keydb);
     _requestRef.child(keydb).set(request.toJson());
   }
 

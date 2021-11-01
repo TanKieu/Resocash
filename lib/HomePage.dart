@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:resocash/GoogleSignInProvider.dart';
+import 'package:resocash/firebase_db/GoogleSignInProvider.dart';
 import 'package:resocash/home.dart';
 import 'dart:convert';
 import 'dart:io';

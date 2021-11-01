@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:resocash/request_matched.dart';
 import 'package:resocash/transfer.dart';
 import 'package:resocash/transfer_complete.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_db/request_dao.dart';
 import 'models/Request.dart';
@@ -20,6 +23,12 @@ class RequestProcess extends StatefulWidget {
 
 class _RequestProcessState extends State<RequestProcess> {
   final _scollController = ScrollController();
+  void _setRequest(RequestService reqMatched) async {
+    final prefs = await SharedPreferences.getInstance();
+    String requestMatched = jsonEncode(reqMatched);
+    prefs.setString('requestMatched', requestMatched);
+  }
+
   Widget _getRequest() {
     final requestDao = RequestDao();
     return Container(
@@ -32,7 +41,7 @@ class _RequestProcessState extends State<RequestProcess> {
           final request = RequestService.fromJson(json);
           String db = request.requestID.toString();
           if (request.status == 'accepted') {
-            print('modabottom' + db);
+            _setRequest(request);
             return RequestMatched(
               request: request,
               dbKey: db,

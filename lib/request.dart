@@ -58,7 +58,6 @@ class _RequestState extends State<Request> {
     );
     requestDao.createRequest(request);
     Navigator.pop(context);
-    print('request' + request.requestID + "          " + dbKey);
     showModalBottomSheet(
       context: context,
       builder: (context) => RequestProcess(

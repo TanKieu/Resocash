@@ -20,12 +20,12 @@ class HistoryOBJ {
       this.status, this.cashierID, this.cashierName, this.areaId, this.date);
 
   HistoryOBJ.fromJson(Map<dynamic, dynamic> json)
-      : requestID = json['cashingRequestID'],
+      : requestID = json['id'],
         storeId = json['storeId' as String],
         storeAddress = json['storeAddress'],
         cash = json['amount'],
         status = json['status'],
-        cashierID = json['cashierID'],
+        cashierID = json['cashierId'],
         cashierName = json['cashierName'],
         areaId = json['areaId'],
         date = json['localDateTime'];
