@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:resocash/firebase_db/GoogleSignInProvider.dart';
 import 'package:resocash/home.dart';
@@ -22,6 +23,18 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    // final fbm = FirebaseMessaging();
+    // fbm.requestNotificationPermissions();
+    // fbm.configure(onMessage: (msg) {
+    //   print(msg);
+    //   return;
+    // }, onLaunch: (msg) {
+    //   print(msg);
+    //   return;
+    // }, onResume: (msg) {
+    //   print(msg);
+    //   return;
+    // });
     super.initState();
   }
 

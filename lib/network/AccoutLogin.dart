@@ -20,7 +20,7 @@ class AccountLogin extends ChangeNotifier {
       var body = jsonDecode(res.body);
       print(body);
       if (body['token'].contains('Invalid')) {
-        return 'success';
+        return 'fail';
       } else {
         final prefs = await SharedPreferences.getInstance();
         prefs.setString('jwtToken', body['token']);

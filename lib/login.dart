@@ -210,7 +210,7 @@ class _LoginState extends State<Login> {
           //       )),
           // ),
           const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 150, vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 130, vertical: 20),
               child: Text(
                 '-------- OR -------',
                 style: TextStyle(
@@ -219,10 +219,8 @@ class _LoginState extends State<Login> {
                     color: Colors.grey),
               )),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 100,
-              ),
               ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                       side: const BorderSide(width: 1.0, color: Colors.white),

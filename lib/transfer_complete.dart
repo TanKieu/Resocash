@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:resocash/firebase_db/request_dao.dart';
 
 class Complete extends StatefulWidget {
-  const Complete({Key? key}) : super(key: key);
+  final String dbKey;
+  const Complete({Key? key, required this.dbKey}) : super(key: key);
 
   @override
   _CompleteState createState() => _CompleteState();
@@ -35,6 +37,8 @@ class _CompleteState extends State<Complete> {
           ),
           TextButton(
               onPressed: () {
+                RequestDao request = new RequestDao();
+                request.finishRequest(widget.dbKey);
                 Navigator.pop(context);
               },
               child: Container(

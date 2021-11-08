@@ -48,7 +48,9 @@ class _RequestProcessState extends State<RequestProcess> {
             );
           }
           if (request.status == 'transfered') {
-            return Complete();
+            return Complete(
+              dbKey: db,
+            );
           }
           if (request.status == 'arrived') {
             return Transfer(request: request);

@@ -4,6 +4,7 @@ class Store {
   final String storeAddress;
   final bool storeStatus;
   final String areaId;
+  final String storePosition;
 
   Store(
     this.id,
@@ -11,6 +12,7 @@ class Store {
     this.storeAddress,
     this.storeStatus,
     this.areaId,
+    this.storePosition,
   );
 
   // Store.fromJson(Map<String, dynamic> json) {

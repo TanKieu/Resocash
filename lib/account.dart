@@ -8,7 +8,7 @@ import './navigator.dart';
 import './request.dart';
 import './activity.dart';
 import './inbox.dart';
-import 'GoogleSignInProvider.dart';
+import 'firebase_db/GoogleSignInProvider.dart';
 import 'main.dart';
 
 class Account extends StatefulWidget {
@@ -206,18 +206,19 @@ class _AccountState extends State<Account> {
                       },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            width: 120,
-                          ),
-                          Expanded(
-                              child: Text(
+                          // SizedBox(
+                          //   width: 120,
+                          // ),
+
+                          Text(
                             'Log out',
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white),
-                          )),
+                          ),
                         ],
                       )),
                 ),

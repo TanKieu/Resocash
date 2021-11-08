@@ -22,6 +22,7 @@ class _RequestState extends State<Request> {
   late String storeId = "";
   late String storeAddress = "";
   late String areaId = "";
+  late String storePosition = "";
   final requestDao = RequestDao();
   bool _visible = true;
   final _controller = TextEditingController();
@@ -47,15 +48,15 @@ class _RequestState extends State<Request> {
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
   void _sendRequest() {
     final request = RequestService(
-      dbKey,
-      storeId,
-      storeAddress,
-      int.parse(_controller.text.toString().replaceAll(',', '')),
-      'waiting',
-      '',
-      '',
-      areaId,
-    );
+        dbKey,
+        storeId,
+        storeAddress,
+        int.parse(_controller.text.toString().replaceAll(',', '')),
+        'waiting',
+        '',
+        '',
+        areaId,
+        storePosition);
     requestDao.createRequest(request);
     Navigator.pop(context);
     showModalBottomSheet(
@@ -85,6 +86,7 @@ class _RequestState extends State<Request> {
       storeAddress = prefs.getString('storeAddress')!;
       storeId = prefs.getString('storeId')!;
       areaId = prefs.getString('areaId')!;
+      storePosition = prefs.getString('storePosition')!;
     });
   }
 
@@ -123,94 +125,51 @@ class _RequestState extends State<Request> {
             ),
             preferredSize: Size.fromHeight(4.0)),
       ),
-      body: InkWell(
-        onTap: () {
-          setState(() {
-            _visible = true;
-          });
-        },
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(
-                      10,
-                    )),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 15, bottom: 15, left: 15, right: 15),
-                  child: Text(
-                    storeId,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black45,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+      body: SingleChildScrollView(
+        child: InkWell(
+          onTap: () {
+            setState(() {
+              _visible = true;
+            });
+          },
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 10,
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-                child: Container(
+                Container(
+                  height: 50,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 2,
                         )
-                      ]),
-                  child: TextField(
-                    controller: _controller,
-                    onTap: () {
-                      setState(() {
-                        _visible = false;
-                      });
-                    },
-                    onChanged: (string) {
-                      string = '${_formatNumber(string.replaceAll(',', ''))}';
-                      _controller.value = TextEditingValue(
-                        text: string,
-                        selection:
-                            TextSelection.collapsed(offset: string.length),
-                      );
-                    },
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(
-                          width: 0,
-                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(
+                        10,
+                      )),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 15, bottom: 15, left: 15, right: 15),
+                    child: Text(
+                      storeId,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black45,
                       ),
-                      hintText: 'Cash',
-                      prefixIcon: Icon(Icons.attach_money),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                   child: Container(
-                    height: 60,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: Colors.white,
@@ -220,61 +179,106 @@ class _RequestState extends State<Request> {
                             spreadRadius: 2,
                           )
                         ]),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.location_on_outlined,
-                          color: Colors.redAccent,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Flexible(
-                          child: Text(
-                            storeAddress,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black87,
-                            ),
+                    child: TextField(
+                      controller: _controller,
+                      onTap: () {
+                        setState(() {
+                          _visible = false;
+                        });
+                      },
+                      onChanged: (string) {
+                        string = '${_formatNumber(string.replaceAll(',', ''))}';
+                        _controller.value = TextEditingValue(
+                          text: string,
+                          selection:
+                              TextSelection.collapsed(offset: string.length),
+                        );
+                      },
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                            width: 0,
                           ),
                         ),
-                      ],
+                        hintText: 'Cash',
+                        prefixIcon: Icon(Icons.attach_money),
+                      ),
                     ),
-                  )),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-                child: TextButton.icon(
-                  onPressed: _sendRequest,
-
-                  //Navigator.pop(context);
-                  //  showModalBottomSheet(
-                  //      context: context,
-                  //      builder: (BuildContext) {
-                  //        return RequestProcess(
-                  //          cash: _controller.text,
-                  //        );
-                  //      });
-
-                  icon: Icon(
-                    Icons.add,
-                    size: 36,
                   ),
-                  label: Text(
-                    "Create Request",
-                    style: TextStyle(fontSize: 24),
-                  ),
-                  style: TextButton.styleFrom(
-                      backgroundColor: Color(0xff5BBCE1),
-                      primary: Colors.white,
-                      padding: EdgeInsets.all(15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        side: BorderSide(color: Colors.grey),
-                      )),
                 ),
-              ),
-            ],
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+                    child: Container(
+                      height: 60,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                            )
+                          ]),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.location_on_outlined,
+                            color: Colors.redAccent,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Flexible(
+                            child: Text(
+                              storeAddress,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                  child: TextButton.icon(
+                    onPressed: _sendRequest,
+
+                    //Navigator.pop(context);
+                    //  showModalBottomSheet(
+                    //      context: context,
+                    //      builder: (BuildContext) {
+                    //        return RequestProcess(
+                    //          cash: _controller.text,
+                    //        );
+                    //      });
+
+                    icon: Icon(
+                      Icons.add,
+                      size: 36,
+                    ),
+                    label: Text(
+                      "Create Request",
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    style: TextButton.styleFrom(
+                        backgroundColor: Color(0xff5BBCE1),
+                        primary: Colors.white,
+                        padding: EdgeInsets.all(15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          side: BorderSide(color: Colors.grey),
+                        )),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

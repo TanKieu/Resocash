@@ -48,7 +48,7 @@ class _ActivityState extends State<Activity> {
                   Text(
                     'My Activities',
                     style: TextStyle(
-                      fontSize: 24.0,
+                      fontSize: 22.0,
                       fontWeight: FontWeight.w800,
                       color: Colors.black,
                     ),

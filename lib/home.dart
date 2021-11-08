@@ -26,11 +26,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   late GoogleMapController mapController;
   List<Marker> allMarkers = [];
-  LatLng _center = new LatLng(10.841709445466075, 106.80923604799794);
+  late LatLng _center;
   late Future<Store> store;
   late String storeAddress = "";
   late String storeId = "";
   late String areaId = "";
+  late String storePosition = "";
   String dbkey = "";
 
   @override
@@ -38,10 +39,6 @@ class _HomeState extends State<Home> {
     super.initState();
     store = StoreRequest.fetchStore();
     _setStore();
-    allMarkers.add(Marker(
-        markerId: MarkerId('Passio FPT Ho Chi minh'),
-        draggable: false,
-        position: _center));
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -53,6 +50,7 @@ class _HomeState extends State<Home> {
     prefs.setString('storeAddress', storeAddress);
     prefs.setString('storeId', storeId);
     prefs.setString('areaId', areaId);
+    prefs.setString('storePosition', storePosition);
   }
 
   @override
@@ -65,7 +63,16 @@ class _HomeState extends State<Home> {
             storeAddress = snapshot.data!.storeAddress;
             storeId = snapshot.data!.id;
             areaId = snapshot.data!.areaId;
-
+            storePosition = snapshot.data!.storePosition;
+            print(storePosition);
+            var parts = storePosition.split(",");
+            double latitude = double.parse(parts[0].trim());
+            double longitude = double.parse(parts[1].trim());
+            _center = LatLng(latitude, longitude);
+            allMarkers.add(Marker(
+                markerId: MarkerId(storeId),
+                draggable: false,
+                position: _center));
             _setStore();
             return Scaffold(
               appBar: AppBar(
@@ -135,6 +142,7 @@ class _HomeState extends State<Home> {
                   target: _center,
                   zoom: 15.0,
                 ),
+                markers: Set.from(allMarkers),
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
