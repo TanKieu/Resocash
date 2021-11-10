@@ -16,6 +16,8 @@ class History extends StatelessWidget {
   Widget build(BuildContext context) {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     final String formatted = formatter.format(DateTime.parse(_date));
+    Color statusColor = Colors.blue;
+    if (_status == 'Canceled') statusColor = Colors.red;
     return Container(
       height: 120.0,
       child: Row(
@@ -57,7 +59,7 @@ class History extends StatelessWidget {
                   _status,
                   style: TextStyle(
                       fontSize: 14.0,
-                      color: Colors.blue,
+                      color: statusColor,
                       fontWeight: FontWeight.bold),
                 ),
                 SizedBox(

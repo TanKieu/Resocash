@@ -21,7 +21,6 @@ class RequestDao {
     // request.requestID = requestID;
     // final prefs = await SharedPreferences.getInstance();
     // prefs.setString('key', requestID);
-    print('hoooooo' + request.position);
     final res = await http.post(
       Uri.parse(requestURL),
       headers: {
@@ -40,6 +39,41 @@ class RequestDao {
 
   void finishRequest(String keydb) {
     _requestRef.child(keydb).remove();
+  }
+
+  Future deleteRequest(RequestService request) async {
+    final res = await http.post(
+      Uri.parse(requestURL + '/StoreDeleteRequest'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        "id": request.cashierID,
+        "name": request.cashierName,
+        "amount": 0,
+        "areaId": request.areaId
+      }),
+    );
+
+    // return requestID;
+  }
+
+  Future cancelRequest(RequestService request) async {
+    final res = await http.post(
+      Uri.parse(requestURL + '/StoreCancelRequest'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        "cashingRequestId": request.requestID,
+        "amount": request.cash,
+        "storeId": request.storeId,
+        "casherId": request.cashierID,
+        "status": "Cancel"
+      }),
+    );
+
+    // return requestID;
   }
 
   Query getRequestQuery(String key) {

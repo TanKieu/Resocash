@@ -22,6 +22,11 @@ class RequestMatched extends StatefulWidget {
 class _RequestMatchedState extends State<RequestMatched> {
   final requestDao = RequestDao();
 
+  void _delRequest() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('requestMatched');
+  }
+
   void _updateStatus() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('requestMatched');
@@ -185,7 +190,13 @@ class _RequestMatchedState extends State<RequestMatched> {
                           shape: BoxShape.circle,
                         ),
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _delRequest();
+                            requestDao.cancelRequest(widget.request);
+                            requestDao.finishRequest(widget.request.requestID);
+                            _delRequest();
+                            Navigator.pop(context);
+                          },
                           icon: Icon(
                             Icons.cancel_outlined,
                             color: Colors.white,

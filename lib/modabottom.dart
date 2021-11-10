@@ -29,6 +29,11 @@ class _RequestProcessState extends State<RequestProcess> {
     prefs.setString('requestMatched', requestMatched);
   }
 
+  void _delRequest() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('requestMatched');
+  }
+
   Widget _getRequest() {
     final requestDao = RequestDao();
     return Container(
@@ -86,6 +91,9 @@ class _RequestProcessState extends State<RequestProcess> {
                   width: 100,
                   child: TextButton(
                     onPressed: () {
+                      requestDao.finishRequest(widget.dbtoken);
+                      requestDao.deleteRequest(request);
+                      _delRequest();
                       Navigator.pop(context);
                     },
                     child: Text("Cancle"),

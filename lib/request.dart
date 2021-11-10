@@ -98,7 +98,6 @@ class _RequestState extends State<Request> {
       _getStore();
     }
 
-    dbKey = storeId + areaId + getRandomString(10);
     setState(() {
       _getStore();
     });
@@ -248,7 +247,10 @@ class _RequestState extends State<Request> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                   child: TextButton.icon(
-                    onPressed: _sendRequest,
+                    onPressed: () {
+                      dbKey = storeId + areaId + getRandomString(10);
+                      _sendRequest();
+                    },
 
                     //Navigator.pop(context);
                     //  showModalBottomSheet(

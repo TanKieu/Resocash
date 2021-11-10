@@ -17,7 +17,6 @@ class HistoryRequest {
     String token = await prefs.getString('jwtToken')!;
     String storeId = await prefs.getString('storeId')!;
     final respone = await http.get(Uri.parse(url + storeId));
-    print(respone.body.toString());
     List jsonResponse = json.decode(respone.body);
     return jsonResponse
         .map((request) => new HistoryOBJ.fromJson(request))
