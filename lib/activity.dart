@@ -122,11 +122,11 @@ class _ActivityState extends State<Activity> {
                                   horizontal: 15, vertical: 10),
                               child: Container(
                                   child: History(
-                                data[index].cashierName,
-                                data[index].cash.toString(),
-                                data[index].status.toString(),
-                                data[index].date.toString(),
-                              )),
+                                      data[index].cashierName,
+                                      data[index].cash.toString(),
+                                      data[index].status,
+                                      data[index].date,
+                                      data[index].rate.toString())),
                             );
                           }),
                     );

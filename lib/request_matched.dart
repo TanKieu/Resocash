@@ -7,6 +7,7 @@ import 'package:resocash/models/Request.dart';
 import 'package:resocash/request.dart';
 import 'package:resocash/transfer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class RequestMatched extends StatefulWidget {
   final RequestService request;
@@ -21,6 +22,10 @@ class RequestMatched extends StatefulWidget {
 
 class _RequestMatchedState extends State<RequestMatched> {
   final requestDao = RequestDao();
+
+  static const _locale = 'en';
+  String _formatNumber(String s) =>
+      NumberFormat.decimalPattern(_locale).format(int.parse(s));
 
   void _delRequest() async {
     final prefs = await SharedPreferences.getInstance();
@@ -80,7 +85,10 @@ class _RequestMatchedState extends State<RequestMatched> {
                             width: 10,
                           ),
                           Text(
-                            widget.request.cash.toString(),
+                            //widget.request.cash.toString(),
+                            _formatNumber(widget.request.cash
+                                .toString()
+                                .replaceAll(',', '')),
                             style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.w400,

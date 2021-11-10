@@ -15,9 +15,19 @@ class HistoryOBJ {
   final String cashierID;
   final String cashierName;
   final String date;
+  final double rate;
 
-  HistoryOBJ(this.requestID, this.storeId, this.storeAddress, this.cash,
-      this.status, this.cashierID, this.cashierName, this.areaId, this.date);
+  HistoryOBJ(
+      this.requestID,
+      this.storeId,
+      this.storeAddress,
+      this.cash,
+      this.status,
+      this.cashierID,
+      this.cashierName,
+      this.areaId,
+      this.date,
+      this.rate);
 
   HistoryOBJ.fromJson(Map<dynamic, dynamic> json)
       : requestID = json['id'],
@@ -28,6 +38,7 @@ class HistoryOBJ {
         cashierID = json['cashierId'],
         cashierName = json['cashierName'],
         areaId = json['areaId'],
+        rate = double.parse(json['rating'].toString()),
         date = json['localDateTime'];
 
   Map<dynamic, dynamic> toJson() => <dynamic, dynamic>{
@@ -37,6 +48,7 @@ class HistoryOBJ {
         'cashierID': cashierID,
         'cashierName': cashierName,
         'areaId': areaId,
+        'rating': rate,
         'status': status
       };
 }

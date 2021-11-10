@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resocash/modabottom.dart';
 import 'package:resocash/models/Request.dart';
+import 'package:intl/intl.dart';
 
 class OnProcess extends StatefulWidget {
   final RequestService request;
@@ -11,6 +12,9 @@ class OnProcess extends StatefulWidget {
 }
 
 class _OnProcessState extends State<OnProcess> {
+  static const _locale = 'en';
+  String _formatNumber(String s) =>
+      NumberFormat.decimalPattern(_locale).format(int.parse(s));
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,7 +69,10 @@ class _OnProcessState extends State<OnProcess> {
                             height: 7,
                           ),
                           Text(
-                            'Cash: ' + widget.request.cash.toString(),
+                            'Cash: ' +
+                                _formatNumber(widget.request.cash
+                                    .toString()
+                                    .replaceAll(',', '')),
                             style: TextStyle(
                                 fontSize: 16.0, fontWeight: FontWeight.w400),
                           ),

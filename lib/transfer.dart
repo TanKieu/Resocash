@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:resocash/models/Request.dart';
 import 'package:resocash/transfer_complete.dart';
+import 'package:intl/intl.dart';
 
 class Transfer extends StatefulWidget {
   final RequestService request;
@@ -12,6 +13,10 @@ class Transfer extends StatefulWidget {
 }
 
 class _TransferState extends State<Transfer> {
+  static const _locale = 'en';
+  String _formatNumber(String s) =>
+      NumberFormat.decimalPattern(_locale).format(int.parse(s));
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,7 +53,10 @@ class _TransferState extends State<Transfer> {
                     width: 10,
                   ),
                   Text(
-                    widget.request.cash.toString() + ' vnd',
+                    _formatNumber(widget.request.cash
+                            .toString()
+                            .replaceAll(',', '')) +
+                        ' vnd',
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
