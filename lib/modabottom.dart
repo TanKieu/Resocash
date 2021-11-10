@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:resocash/rating.dart';
 import 'package:resocash/request_matched.dart';
 import 'package:resocash/transfer.dart';
 import 'package:resocash/transfer_complete.dart';
@@ -55,6 +56,7 @@ class _RequestProcessState extends State<RequestProcess> {
           if (request.status == 'transfered') {
             return Complete(
               dbKey: db,
+              request: request,
             );
           }
           if (request.status == 'arrived') {

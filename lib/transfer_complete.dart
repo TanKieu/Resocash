@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:resocash/firebase_db/request_dao.dart';
+import 'package:resocash/models/Request.dart';
+import 'package:resocash/rating.dart';
+
+import 'modabottom.dart';
 
 class Complete extends StatefulWidget {
+  final RequestService request;
   final String dbKey;
-  const Complete({Key? key, required this.dbKey}) : super(key: key);
+  const Complete({Key? key, required this.dbKey, required this.request})
+      : super(key: key);
 
   @override
   _CompleteState createState() => _CompleteState();
@@ -40,6 +46,11 @@ class _CompleteState extends State<Complete> {
                 RequestDao request = new RequestDao();
                 request.finishRequest(widget.dbKey);
                 Navigator.pop(context);
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) => Rating(
+                          request: widget.request,
+                        ));
               },
               child: Container(
                 decoration: BoxDecoration(
